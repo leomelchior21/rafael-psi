@@ -1,0 +1,74 @@
+[
+  {
+    "file": "/images/galeria-centro.webp",
+    "title": "Empty shopping arcade in central Sao Paulo in black and white.jpg",
+    "alt": "Galeria comercial vazia no centro de São Paulo, fotografada em preto e branco.",
+    "photographer": "Wilfredor",
+    "source": "https://commons.wikimedia.org/wiki/File:Empty_shopping_arcade_in_central_Sao_Paulo_in_black_and_white.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Redimensionamento e conversão para WebP. A exibição pode aplicar recorte e filtro monocromático por CSS. A fotografia mantém a licença indicada.",
+    "width": 1920,
+    "height": 1168
+  },
+  {
+    "file": "/images/sujeito-cidade.webp",
+    "title": "People of São Paulo Center.jpg",
+    "alt": "Pessoa sentada em um banco no centro de São Paulo.",
+    "photographer": "Wilfredor",
+    "source": "https://commons.wikimedia.org/wiki/File:People_of_S%C3%A3o_Paulo_Center.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "changes": "Redimensionamento e conversão para WebP. A exibição pode aplicar recorte e filtro monocromático por CSS. A fotografia mantém a licença indicada.",
+    "width": 1920,
+    "height": 1275
+  },
+  {
+    "file": "/images/estacao-luz.webp",
+    "title": "Luz Metro Station of São Paulo.jpg",
+    "alt": "Passagem na estação Luz do metrô de São Paulo.",
+    "photographer": "Wilfredor",
+    "source": "https://commons.wikimedia.org/wiki/File:Luz_Metro_Station_of_S%C3%A3o_Paulo.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "changes": "Redimensionamento e conversão para WebP. A exibição pode aplicar recorte e filtro monocromático por CSS. A fotografia mantém a licença indicada.",
+    "width": 1920,
+    "height": 1275
+  },
+  {
+    "file": "/images/avenida-paulista.webp",
+    "title": "Avenida Paulista street.jpg",
+    "alt": "Cena de rua na Avenida Paulista, em São Paulo.",
+    "photographer": "Wilfredor",
+    "source": "https://commons.wikimedia.org/wiki/File:Avenida_Paulista_street.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "changes": "Redimensionamento e conversão para WebP. A exibição pode aplicar recorte e filtro monocromático por CSS. A fotografia mantém a licença indicada.",
+    "width": 1920,
+    "height": 1276
+  },
+  {
+    "file": "/images/viaduto-cha.webp",
+    "title": "Viaduto do Chá, São Paulo, Brazil.jpg",
+    "alt": "Viaduto do Chá e edifícios do centro de São Paulo.",
+    "photographer": "Wilfredor",
+    "source": "https://commons.wikimedia.org/wiki/File:Viaduto_do_Ch%C3%A1,_S%C3%A3o_Paulo,_Brazil.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Redimensionamento e conversão para WebP. A exibição pode aplicar recorte e filtro monocromático por CSS. A fotografia mantém a licença indicada.",
+    "width": 1920,
+    "height": 1098
+  },
+  {
+    "file": "/images/copan.webp",
+    "title": "Fachada sul do edifício Copan.jpg",
+    "alt": "Fachada sul do edifício Copan, em São Paulo.",
+    "photographer": "Rodrigo.Argenton",
+    "source": "https://commons.wikimedia.org/wiki/File:Fachada_sul_do_edif%C3%ADcio_Copan.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Redimensionamento e conversão para WebP. A exibição pode aplicar recorte e filtro monocromático por CSS. A fotografia mantém a licença indicada.",
+    "width": 1920,
+    "height": 1283
+  }
+]
