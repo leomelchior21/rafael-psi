@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import type { CSSProperties } from 'react';
 import { imageUrl } from '@/sanity/images';
 import type { EditorialPhoto } from '@/lib/types';
 import { safeHref } from '@/lib/utils';
@@ -9,6 +10,9 @@ export function EditorialImage({
   sizes = '(max-width: 700px) 100vw, 50vw',
   ratio = 1.5,
   caption = false,
+  reveal = false,
+  depth = false,
+  delay,
 }: {
   image?: EditorialPhoto;
   className?: string;
@@ -16,26 +20,36 @@ export function EditorialImage({
   sizes?: string;
   ratio?: number;
   caption?: boolean;
+  reveal?: false | 'horizontal' | 'vertical';
+  depth?: boolean;
+  delay?: number;
 }) {
   const src = imageUrl(image, 1600, Math.round(1600 / ratio));
   if (!image || !src) return <div className={`image-empty ${className}`} aria-hidden="true" />;
   return (
-    <figure className={`editorial-image ${className}`}>
-      <div className="image-frame">
-        <Image
-          src={src}
-          alt={image.alt || ''}
-          fill
-          sizes={sizes}
-          priority={priority}
-          style={{
-            objectFit: 'cover',
-            objectPosition:
-              !image.asset && image.hotspot
-                ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
-                : 'center',
-          }}
-        />
+    <figure
+      className={`editorial-image ${className}`}
+      data-image-reveal={reveal || undefined}
+      data-image-depth={depth || undefined}
+      data-reveal-delay={delay}
+    >
+      <div className="image-frame" style={{ '--image-ratio': ratio } as CSSProperties}>
+        <div className="image-inner">
+          <Image
+            src={src}
+            alt={image.alt || ''}
+            fill
+            sizes={sizes}
+            priority={priority}
+            style={{
+              objectFit: 'cover',
+              objectPosition:
+                !image.asset && image.hotspot
+                  ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
+                  : 'center',
+            }}
+          />
+        </div>
       </div>
       {caption && (image.caption || image.photographer) && (
         <figcaption>

@@ -6,6 +6,7 @@ import { SectionHeading } from '@/components/section-heading';
 import { ArticleCard } from '@/components/article-card';
 import { FragmentCard } from '@/components/fragment-card';
 import { Arrow } from '@/components/icons';
+import { RevealHeading } from '@/components/reveal-heading';
 export async function generateMetadata() {
   const [home, settings] = await Promise.all([getHome(), getSettings()]);
   return pageMetadata(
@@ -18,25 +19,31 @@ export async function generateMetadata() {
 export default async function HomePage() {
   const home = await getHome();
   const articles = (home.featuredArticles || []).filter((a) => a?.slug?.current);
-  const fragments = (home.featuredFragments || []).filter((f) => f);
+  const fragments = (home.featuredFragments || []).filter((f) => f).slice(0, 2);
   const fragmentImage = fragments.find((f) => f.image)?.image;
   return (
     <>
       <section className="hero ink-surface">
+        <div className="hero-texture" aria-hidden="true" />
         <div className="container hero-inner">
           <div className="hero-copy">
             <p className="eyebrow hero-eyebrow">Rafael Rodrigues · Psicanálise</p>
-            <h1>{home.heroTitle || 'Psicanálise,\ncidade e palavra'}</h1>
+            <RevealHeading text={home.heroTitle || 'Psicanálise,\ncidade e palavra'} />
             <p className="hero-subtitle">
               {home.heroSubtitle || 'Escuta, pensamento\ne vida urbana.'}
             </p>
             <div className="hero-actions">
-              <Link className="pill pill-paper" href="/textos">
+              <Link className="editorial-action" href="/textos" data-magnetic>
                 {home.heroPrimaryCTA || 'Ler'}
                 <Arrow />
               </Link>
-              <Link className="pill pill-outline" href="/clinica">
+              <Link
+                className="editorial-action editorial-action-secondary"
+                href="/clinica"
+                data-magnetic
+              >
                 {home.heroSecondaryCTA || 'Clínica'}
+                <Arrow />
               </Link>
             </div>
           </div>
@@ -44,8 +51,9 @@ export default async function HomePage() {
             <EditorialImage
               image={home.heroImage}
               priority
-              ratio={0.9}
-              sizes="(max-width:700px) 100vw, 58vw"
+              ratio={1.05}
+              depth
+              sizes="(max-width:800px) 100vw, 58vw"
             />
             <span className="hero-photo-caption">São Paulo · entre o movimento e a pausa</span>
           </div>
@@ -60,9 +68,9 @@ export default async function HomePage() {
       <section className="section texts-section">
         <div className="container">
           <SectionHeading title="Textos" href="/textos" />
-          <div className="article-grid">
-            {articles.map((article) => (
-              <ArticleCard key={article._id} article={article} />
+          <div className="article-grid featured-grid">
+            {articles.map((article, index) => (
+              <ArticleCard key={article._id} article={article} featured index={index} />
             ))}
           </div>
           {!articles.length && <p className="empty-state">Os primeiros textos chegam em breve.</p>}
@@ -72,7 +80,7 @@ export default async function HomePage() {
         <div className="container fragments-layout">
           <div className="fragments-copy">
             <SectionHeading title="Fragmentos" href="/fragmentos" label="Explorar" />
-            <div className="home-fragments">
+            <div className="home-fragments" data-stagger>
               {fragments.map((fragment) => (
                 <FragmentCard key={fragment._id} fragment={fragment} />
               ))}
@@ -80,17 +88,29 @@ export default async function HomePage() {
             {!fragments.length && <p>Pequenas notas, perguntas em aberto.</p>}
           </div>
           {fragmentImage && (
-            <EditorialImage image={fragmentImage} className="fragment-photo" ratio={1.15} />
+            <EditorialImage
+              image={fragmentImage}
+              className="fragment-photo"
+              ratio={0.95}
+              reveal="vertical"
+              depth
+              delay={0.3}
+            />
           )}
         </div>
       </section>
       <section className="section clinic-section">
         <div className="container clinic-layout">
-          <div>
+          <div className="clinic-copy" data-reveal>
             <span className="eyebrow">A prática da escuta</span>
             <h2>{home.clinicTitle || 'Clínica'}</h2>
             <p>{home.clinicShortText || 'Atendimento psicanalítico.'}</p>
-            <Link href="/clinica" className="text-link clinic-link" aria-label="Conhecer a clínica">
+            <Link
+              href="/clinica"
+              className="text-link clinic-link"
+              aria-label="Conhecer a clínica"
+              data-magnetic
+            >
               <span>Conhecer a clínica</span>
               <Arrow />
             </Link>
@@ -98,8 +118,10 @@ export default async function HomePage() {
           <Link href="/clinica" className="clinic-image-link" aria-label="Conhecer o atendimento">
             <EditorialImage
               image={home.clinicImage}
-              ratio={1.8}
-              sizes="(max-width:700px) 90vw, 60vw"
+              ratio={1.5}
+              reveal="horizontal"
+              depth
+              sizes="(max-width:800px) 90vw, 60vw"
             />
           </Link>
         </div>

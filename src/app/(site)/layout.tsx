@@ -4,12 +4,14 @@ import { getSettings, isDemo } from '@/lib/content';
 import { SanityLive } from '@/sanity/live';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { MotionSystem } from '@/components/motion-system';
 export const revalidate = 60;
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSettings();
   const draft = (await draftMode()).isEnabled;
   return (
-    <>
+    <div className="site-shell">
+      <MotionSystem enabled={!draft} />
       <a href="#conteudo" className="skip-link">
         Pular para o conteúdo
       </a>
@@ -27,6 +29,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       )}
       {!isDemo && <SanityLive />}
       {draft && <VisualEditing />}
-    </>
+    </div>
   );
 }

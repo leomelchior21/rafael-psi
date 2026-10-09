@@ -4,6 +4,7 @@ import '@fontsource/instrument-serif/latin-400-italic.css';
 import '@fontsource/dm-sans/latin-400.css';
 import '@fontsource/dm-sans/latin-500.css';
 import './globals.css';
+import './editorial.css';
 import { siteUrl } from '@/lib/metadata';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

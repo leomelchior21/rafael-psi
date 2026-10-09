@@ -10,10 +10,10 @@ export function SectionHeading({
   label?: string;
 }) {
   return (
-    <div className="section-heading">
+    <div className="section-heading" data-reveal>
       <h2>{title}</h2>
       {href && (
-        <Link className="text-link" href={href}>
+        <Link className="text-link" href={href} data-magnetic>
           {label}
           <Arrow />
         </Link>

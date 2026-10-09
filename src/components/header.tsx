@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import type { EditorialPhoto } from '@/lib/types';
 import { Logo } from './logo';
 import { SearchIcon, Arrow } from './icons';
@@ -12,9 +12,16 @@ export const navigation = [
   ['Sobre', '/sobre'],
   ['Contato', '/contato'],
 ];
+const subscribeScroll = (callback: () => void) => {
+  window.addEventListener('scroll', callback, { passive: true });
+  return () => window.removeEventListener('scroll', callback);
+};
+const getScrolled = () => window.scrollY > 24;
+const getServerScrolled = () => false;
 export function Header({ logo }: { logo?: EditorialPhoto }) {
   const pathname = usePathname();
   const light = pathname === '/';
+  const scrolled = useSyncExternalStore(subscribeScroll, getScrolled, getServerScrolled);
   const menu = useRef<HTMLDialogElement>(null);
   const search = useRef<HTMLDialogElement>(null);
   const [query, setQuery] = useState('');
@@ -22,6 +29,14 @@ export function Header({ logo }: { logo?: EditorialPhoto }) {
     { title: string; href: string; type: string; excerpt?: string }[]
   >([]);
   const [status, setStatus] = useState('');
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+      document.body.style.overflow = '';
+    },
+    [],
+  );
   useEffect(() => {
     if (query.trim().length < 2) return;
     const controller = new AbortController();
@@ -49,17 +64,27 @@ export function Header({ logo }: { logo?: EditorialPhoto }) {
     };
   }, [query]);
   function open(dialog: HTMLDialogElement | null) {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    dialog?.classList.remove('is-closing');
     dialog?.showModal();
     document.body.style.overflow = 'hidden';
   }
   function close() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
     menu.current?.close();
     search.current?.close();
     document.body.style.overflow = '';
   }
+  function closeMenu() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return close();
+    menu.current?.classList.add('is-closing');
+    closeTimer.current = setTimeout(close, 180);
+  }
   return (
     <>
-      <header className={`site-header ${light ? 'header-dark' : ''}`}>
+      <header
+        className={`site-header ${light ? 'header-dark' : ''} ${scrolled ? 'header-scrolled' : ''}`}
+      >
         <div className="container header-inner">
           <Logo image={logo} light={light} />
           <nav aria-label="Navegação principal" className="desktop-nav">
@@ -91,19 +116,24 @@ export function Header({ logo }: { logo?: EditorialPhoto }) {
       <dialog
         ref={menu}
         className="menu-dialog"
+        data-native-scroll
+        onCancel={(event) => {
+          event.preventDefault();
+          closeMenu();
+        }}
         onClose={() => {
           if (!search.current?.open) document.body.style.overflow = '';
         }}
       >
         <div className="dialog-top">
-          <Logo />
-          <button className="icon-button close-button" onClick={close} aria-label="Fechar menu">
+          <Logo image={logo} light />
+          <button className="icon-button close-button" onClick={closeMenu} aria-label="Fechar menu">
             ×
           </button>
         </div>
         <nav aria-label="Menu completo">
           {navigation.map(([label, href], i) => (
-            <Link key={href} href={href} onClick={close}>
+            <Link key={href} href={href} onClick={close} style={{ animationDelay: `${i * 55}ms` }}>
               <span className="meta">0{i + 1}</span>
               {label}
               <Arrow diagonal />

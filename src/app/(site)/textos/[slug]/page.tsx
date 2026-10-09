@@ -9,6 +9,7 @@ import { PortableTextRenderer } from '@/components/portable-text';
 import { ShareButton } from '@/components/share-button';
 import { SectionHeading } from '@/components/section-heading';
 import { ArticleCard } from '@/components/article-card';
+import { RevealHeading } from '@/components/reveal-heading';
 type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
@@ -47,7 +48,7 @@ export default async function ArticlePage({ params }: Props) {
             {article.topic?.title} <span className="metadata-separator">/</span>{' '}
             <time dateTime={article.publishedAt}>{dateLabel(article.publishedAt)}</time>
           </p>
-          <h1>{article.title}</h1>
+          <RevealHeading text={article.title} />
           {article.subtitle && <p className="article-subtitle">{article.subtitle}</p>}
           {article.demo && (
             <p className="demo-label">
@@ -61,6 +62,7 @@ export default async function ArticlePage({ params }: Props) {
           priority
           caption
           ratio={1.9}
+          reveal="horizontal"
           sizes="(max-width: 1300px) 90vw, 1280px"
         />
         <div className="reading-column">

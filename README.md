@@ -113,7 +113,7 @@ Abra **Páginas → Página inicial → Abertura**, troque a fotografia, descrev
 
 ### Escolher os destaques
 
-Em **Páginas → Página inicial → Curadoria**, selecione até três textos e até três fragmentos. Arraste para definir a ordem. Publique a página inicial. A capa mantém sua seleção; não é substituída automaticamente pelos textos mais recentes.
+Em **Páginas → Página inicial → Curadoria**, selecione até três textos e organize os fragmentos. Arraste para definir a ordem. A capa apresenta os dois primeiros fragmentos selecionados; os demais continuam no arquivo. Publique a página inicial. A capa mantém sua seleção; não é substituída automaticamente pelos textos mais recentes.
 
 ### Alterar contato ou redes
 
@@ -130,6 +130,14 @@ Use **Páginas → Clínica** e **Páginas → Sobre**. Substitua os textos de a
 - [Configuração CORS do Sanity](https://www.sanity.io/docs/content-lake/cors)
 
 As referências de design originais ficam em `DESIGN-REFERENCE/` para manutenção da identidade.
+
+## Composição e movimento
+
+`src/app/editorial.css` concentra o ritmo editorial, a composição responsiva e os estados de interação. `MotionSystem` controla as entradas por linha, as revelações de capítulos e imagens e a limpeza das animações entre rotas, usando GSAP e ScrollTrigger. Lenis atua apenas em telas acima de 1024 px com mouse; celular e tablet conservam a rolagem nativa. Menus e busca suspendem a rolagem da página.
+
+Com movimento reduzido, a rolagem suave, os recortes animados e a profundidade das imagens são desativados. Todo o conteúdo permanece visível sem JavaScript. A prévia de edição do Sanity também desativa as animações. Schemas, consultas e publicação do CMS permanecem independentes dessa camada visual.
+
+Com o site rodando em `localhost:3000`, `node scripts/refinement-audit.mjs` registra a página e as imagens em 1440, 1280, 1024, 768, 430 e 390 px, além do menu e de um artigo. Os arquivos são salvos em `artifacts/refinement/` e não entram no Git. Os testes de navegador verificam foco, bloqueio da rolagem, movimento reduzido, conteúdo sem JavaScript e os fluxos públicos existentes.
 
 ## Manutenção de dependências
 
