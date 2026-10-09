@@ -125,6 +125,10 @@ Abra **Configurações → Identidade, SEO, redes e contato → Redes e contato*
 
 Use **Páginas → Clínica** e **Páginas → Sobre**. Substitua os textos de apresentação provisórios e acrescente apenas informações confirmadas. Você pode trocar o retrato e omitir formação ou seções adicionais. O layout se adapta.
 
+Na Clínica, **Título de abertura** define o título grande e suas quebras de linha; **Fotografia de destaque — abertura** substitui a imagem ilustrativa do consultório. **Frase do painel de vidro** e **Legenda do painel de vidro** controlam o cartão translúcido. A fotografia anterior permanece em **Fotografia complementar — atendimento**. Introdução, modalidades e primeiro contato mantêm os campos existentes. A imagem ilustrativa e seu prompt estão documentados em `data/clinic-interior.md`.
+
+A brush da homepage entra ao longo de 3,4 segundos com uma curva suave e uma transição de opacidade, permanecendo estática depois da abertura. A fotografia da Clínica na homepage tem bordas arredondadas. Essas mudanças preservam o comportamento sem JavaScript e com movimento reduzido.
+
 Até enviar uma foto no campo **Retrato**, Sobre apresenta uma imagem ilustrativa provisória, identificada pela legenda. Ao publicar a fotografia real pelo Studio, ela substitui automaticamente o exemplo. O retrato ilustrativo não é usado nos metadados da pessoa ou na imagem de compartilhamento.
 
 ## Referências técnicas

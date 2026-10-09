@@ -422,6 +422,28 @@ export const schemaTypes = [
     type: 'document',
     fields: [
       title(),
+      defineField({
+        name: 'heroTitle',
+        title: 'Título de abertura',
+        type: 'text',
+        rows: 3,
+        description: 'As quebras de linha são preservadas na abertura da página.',
+        initialValue: 'Um espaço\npara escutar\no que insiste.',
+      }),
+      photo('heroImage', 'Fotografia de destaque — abertura'),
+      defineField({
+        name: 'heroQuote',
+        title: 'Frase do painel de vidro',
+        type: 'text',
+        rows: 3,
+        initialValue: 'Nem tudo o que sentimos se explica. Mas pode ser escutado.',
+      }),
+      defineField({
+        name: 'heroQuoteCaption',
+        title: 'Legenda do painel de vidro',
+        type: 'string',
+        initialValue: 'A clínica como possibilidade de outra narrativa.',
+      }),
       intro(),
       body(),
       defineField({
@@ -432,7 +454,7 @@ export const schemaTypes = [
         initialValue: ['Presencial', 'Online'],
       }),
       defineField({ name: 'city', title: 'Cidade', type: 'string' }),
-      photo('clinicImage', 'Fotografia'),
+      photo('clinicImage', 'Fotografia complementar — atendimento'),
       defineField({
         name: 'contactText',
         title: 'Orientação para o primeiro contato',

@@ -7,6 +7,7 @@ import './globals.css';
 import './editorial.css';
 import './hero.css';
 import './archive.css';
+import './clinic.css';
 import { siteUrl } from '@/lib/metadata';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

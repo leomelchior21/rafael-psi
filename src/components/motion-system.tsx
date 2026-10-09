@@ -25,7 +25,7 @@ export function MotionSystem({ enabled = true }: { enabled?: boolean }) {
       () => {
         const hero = shell.querySelector('.hero');
         const main = shell.querySelector('main');
-        const onOpening = pathname === '/' && window.scrollY < 40;
+        const onOpening = Boolean(hero) && window.scrollY < 40;
 
         if (hero && onOpening) {
           const opening = gsap.timeline({ defaults: { ease } });
@@ -33,9 +33,15 @@ export function MotionSystem({ enabled = true }: { enabled?: boolean }) {
             .from('.hero-photo-motion', { scale: 1.04, duration: 1.6, clearProps: 'transform' }, 0)
             .fromTo(
               '.hero-brush',
-              { clipPath: 'inset(0 100% 0 0)' },
-              { clipPath: 'inset(0 0% 0 0)', duration: 1.35, clearProps: 'clipPath' },
-              0.15,
+              { clipPath: 'inset(0 100% 0 0)', opacity: 0.15 },
+              {
+                clipPath: 'inset(0 0% 0 0)',
+                opacity: 0.95,
+                duration: 3.4,
+                ease: 'power2.inOut',
+                clearProps: 'clipPath,opacity',
+              },
+              0.25,
             )
             .from('.site-header .logo', { opacity: 0, y: 8, duration: 0.5 }, 0.05)
             .from(

@@ -35,23 +35,19 @@ test('only photographs rotate; pause and reduced motion suspend automatic change
   await page.goto('/');
   const photos = page.locator('.hero-photos');
   await expect(page.getByRole('button', { name: 'Pausar fotografias' })).toBeVisible();
-  await page.waitForTimeout(1800);
-  const brush = await page
-    .locator('.hero-brush')
-    .evaluate((element) => ({
+  await expect(page.locator('.hero-brush')).toHaveCSS('clip-path', 'none');
+  const brush = await page.locator('.hero-brush').evaluate((element) => ({
+    rect: element.getBoundingClientRect().toJSON(),
+    transform: getComputedStyle(element).transform,
+    clip: getComputedStyle(element).clipPath,
+  }));
+  await expect(photos).not.toHaveAttribute('data-active-slide', '0', { timeout: 12000 });
+  expect(
+    await page.locator('.hero-brush').evaluate((element) => ({
       rect: element.getBoundingClientRect().toJSON(),
       transform: getComputedStyle(element).transform,
       clip: getComputedStyle(element).clipPath,
-    }));
-  await expect(photos).not.toHaveAttribute('data-active-slide', '0', { timeout: 12000 });
-  expect(
-    await page
-      .locator('.hero-brush')
-      .evaluate((element) => ({
-        rect: element.getBoundingClientRect().toJSON(),
-        transform: getComputedStyle(element).transform,
-        clip: getComputedStyle(element).clipPath,
-      })),
+    })),
   ).toEqual(brush);
   await page.getByRole('button', { name: 'Pausar fotografias' }).click();
   const paused = await photos.getAttribute('data-active-slide');

@@ -81,6 +81,10 @@ export interface Home {
 }
 export interface Clinic {
   title?: string;
+  heroTitle?: string;
+  heroImage?: EditorialPhoto;
+  heroQuote?: string;
+  heroQuoteCaption?: string;
   intro?: string;
   body?: Body;
   modalities?: string[];
