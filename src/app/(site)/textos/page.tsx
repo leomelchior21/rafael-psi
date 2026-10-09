@@ -9,13 +9,10 @@ export const metadata = pageMetadata(
 export default async function ArticlesPage() {
   const [articles, topics] = await Promise.all([getArticles(), getTopics()]);
   return (
-    <div className="container page-section">
-      <div className="page-heading">
-        <span className="eyebrow">Arquivo editorial</span>
-        <h1>Textos</h1>
-        <p>Ideias que pedem um pouco mais de tempo.</p>
+    <div className="texts-page">
+      <div className="container texts-container">
+        <ArticleArchive articles={articles} topics={topics} />
       </div>
-      <ArticleArchive articles={articles} topics={topics} />
     </div>
   );
 }

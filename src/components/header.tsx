@@ -18,11 +18,21 @@ const subscribeScroll = (callback: () => void) => {
 };
 const getScrolled = () => window.scrollY > 24;
 const getServerScrolled = () => false;
+function MenuIcon({ open = false }: { open?: boolean }) {
+  return (
+    <span className="hamburger" data-open={open} aria-hidden="true">
+      <span className="hamburger-line" />
+      <span className="hamburger-line" />
+      <span className="hamburger-line" />
+    </span>
+  );
+}
 export function Header({ logo }: { logo?: EditorialPhoto }) {
   const pathname = usePathname();
   const scrolled = useSyncExternalStore(subscribeScroll, getScrolled, getServerScrolled);
   const menu = useRef<HTMLDialogElement>(null);
   const search = useRef<HTMLDialogElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<
     { title: string; href: string; type: string; excerpt?: string }[]
@@ -66,18 +76,21 @@ export function Header({ logo }: { logo?: EditorialPhoto }) {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     dialog?.classList.remove('is-closing');
     dialog?.showModal();
+    if (dialog === menu.current) setMenuOpen(true);
     document.body.style.overflow = 'hidden';
   }
   function close() {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     menu.current?.close();
     search.current?.close();
+    setMenuOpen(false);
     document.body.style.overflow = '';
   }
   function closeMenu() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return close();
     menu.current?.classList.add('is-closing');
-    closeTimer.current = setTimeout(close, 180);
+    setMenuOpen(false);
+    closeTimer.current = setTimeout(close, 280);
   }
   return (
     <>
@@ -103,14 +116,17 @@ export function Header({ logo }: { logo?: EditorialPhoto }) {
             <button
               className="icon-button menu-trigger"
               aria-label="Abrir menu"
+              aria-expanded={menuOpen}
+              aria-controls="site-menu"
               onClick={() => open(menu.current)}
             >
-              <span className="hamburger" />
+              <MenuIcon open={menuOpen} />
             </button>
           </div>
         </div>
       </header>
       <dialog
+        id="site-menu"
         ref={menu}
         className="menu-dialog"
         data-native-scroll
@@ -119,13 +135,14 @@ export function Header({ logo }: { logo?: EditorialPhoto }) {
           closeMenu();
         }}
         onClose={() => {
+          setMenuOpen(false);
           if (!search.current?.open) document.body.style.overflow = '';
         }}
       >
         <div className="dialog-top">
           <Logo image={logo} light />
           <button className="icon-button close-button" onClick={closeMenu} aria-label="Fechar menu">
-            ×
+            <MenuIcon open={menuOpen} />
           </button>
         </div>
         <nav aria-label="Menu completo">

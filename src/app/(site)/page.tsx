@@ -98,9 +98,12 @@ export default async function HomePage() {
         <div className="fragment-photo-treatment" aria-hidden="true" />
         <div className="container fragments-layout">
           <div className="fragments-copy">
-            <SectionHeading title="Fragmentos" href="/fragmentos" label="Explorar" />
+            <SectionHeading title="Fragmentos" />
             <FragmentRotator fragments={fragments} />
             {!fragments.length && <p>Pequenas notas, perguntas em aberto.</p>}
+            <Link className="text-link fragments-explore" href="/fragmentos" data-magnetic>
+              Explorar fragmentos <Arrow />
+            </Link>
           </div>
         </div>
       </section>

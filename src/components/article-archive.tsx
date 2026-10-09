@@ -6,32 +6,37 @@ export function ArticleArchive({ articles, topics }: { articles: Article[]; topi
   const [topic, setTopic] = useState('all');
   const filtered = articles.filter((article) => topic === 'all' || article.topic?._id === topic);
   return (
-    <>
-      <div className="topic-filters" aria-label="Filtrar textos por tema">
-        <button aria-pressed={topic === 'all'} onClick={() => setTopic('all')}>
-          Todos
-        </button>
-        {topics.map((item) => (
-          <button
-            key={item._id}
-            aria-pressed={topic === item._id}
-            onClick={() => setTopic(item._id)}
-          >
-            {item.title}
+    <div className="archive-layout">
+      <aside className="archive-sidebar">
+        <h1>Textos</h1>
+        <div className="topic-filters" aria-label="Filtrar textos por tema">
+          <button aria-pressed={topic === 'all'} onClick={() => setTopic('all')}>
+            Todos
           </button>
-        ))}
+          {topics.map((item) => (
+            <button
+              key={item._id}
+              aria-pressed={topic === item._id}
+              onClick={() => setTopic(item._id)}
+            >
+              {item.title}
+            </button>
+          ))}
+        </div>
+      </aside>
+      <div className="archive-results">
+        <p className="sr-only" role="status">
+          {filtered.length} textos encontrados
+        </p>
+        <div className="article-grid archive-grid">
+          {filtered.map((article) => (
+            <ArticleCard key={article._id} article={article} archive />
+          ))}
+        </div>
+        {!filtered.length && (
+          <p className="empty-state">Ainda não há textos publicados neste tema.</p>
+        )}
       </div>
-      <p className="sr-only" role="status">
-        {filtered.length} textos encontrados
-      </p>
-      <div className="article-grid archive-grid">
-        {filtered.map((article) => (
-          <ArticleCard key={article._id} article={article} archive />
-        ))}
-      </div>
-      {!filtered.length && (
-        <p className="empty-state">Ainda não há textos publicados neste tema.</p>
-      )}
-    </>
+    </div>
   );
 }

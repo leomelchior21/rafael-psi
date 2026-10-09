@@ -12,7 +12,14 @@ test('fixed header and fullscreen menu preserve scroll locking and keyboard focu
   await expect(page.locator('.site-header')).toHaveClass(/header-scrolled/);
   const trigger = page.getByRole('button', { name: 'Abrir menu' });
   await trigger.click();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('.menu-dialog')).toBeVisible();
+  await expect(page.locator('.menu-dialog .hamburger')).toHaveAttribute('data-open', 'true');
+  const backdrop = await page
+    .locator('.menu-dialog')
+    .evaluate((dialog) => getComputedStyle(dialog, '::backdrop').backdropFilter);
+  expect(backdrop).toContain('blur(24px)');
+  await expect(page.locator('.menu-dialog')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
   const width = await page
     .locator('.menu-dialog')
@@ -21,6 +28,13 @@ test('fixed header and fullscreen menu preserve scroll locking and keyboard focu
   await page.keyboard.press('Escape');
   await expect(page.locator('.menu-dialog')).not.toBeVisible();
   await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  // Verify the icon/state also survives closing with its button and reopening.
+  await trigger.click();
+  await page.getByRole('button', { name: 'Fechar menu' }).click();
+  await expect(page.locator('.menu-dialog')).not.toBeVisible();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   await expect(trigger).toBeFocused();
 });
 
