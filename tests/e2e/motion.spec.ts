@@ -5,6 +5,9 @@ test('fixed header and fullscreen menu preserve scroll locking and keyboard focu
 }) => {
   await page.goto('/');
   await page.waitForTimeout(1800);
+  await expect(page.locator('.site-header')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  await expect(page.locator('.site-header')).toHaveCSS('color', 'rgb(243, 240, 232)');
+  expect(await page.locator('.hero').evaluate((hero) => hero.getBoundingClientRect().top)).toBe(0);
   await page.evaluate(() => window.scrollTo({ top: 400, behavior: 'instant' }));
   await expect(page.locator('.site-header')).toHaveClass(/header-scrolled/);
   const trigger = page.getByRole('button', { name: 'Abrir menu' });
@@ -36,8 +39,10 @@ test('reduced motion restores revealed content and uses native scrolling', async
   }
   await page.locator('.article-card-link').first().click();
   await expect(page.locator('.prose')).toBeVisible();
+  await expect(page.locator('.site-header')).toHaveCSS('color', 'rgb(12, 12, 12)');
   await page.locator('.site-header .logo').click();
   await expect(page.locator('.hero h1')).toBeVisible();
+  await expect(page.locator('.site-header')).toHaveCSS('color', 'rgb(243, 240, 232)');
   await expect(page.locator('main')).toHaveCSS('opacity', '1');
 });
 
@@ -45,9 +50,11 @@ test('the editorial content remains visible without JavaScript', async ({ browse
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto(baseURL!);
+  await expect(page.locator('.site-header')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  await expect(page.locator('.site-header')).toHaveCSS('color', 'rgb(243, 240, 232)');
   await expect(page.locator('.hero h1')).toBeVisible();
   await expect(page.locator('.article-card')).toHaveCount(3);
   await expect(page.locator('.clinic-copy')).toHaveCSS('opacity', '1');
-  await expect(page.locator('.fragment-photo .image-frame')).toHaveCSS('clip-path', 'none');
+  await expect(page.locator('.fragment-background .image-frame')).toHaveCSS('clip-path', 'none');
   await context.close();
 });

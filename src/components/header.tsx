@@ -20,7 +20,6 @@ const getScrolled = () => window.scrollY > 24;
 const getServerScrolled = () => false;
 export function Header({ logo }: { logo?: EditorialPhoto }) {
   const pathname = usePathname();
-  const light = pathname === '/';
   const scrolled = useSyncExternalStore(subscribeScroll, getScrolled, getServerScrolled);
   const menu = useRef<HTMLDialogElement>(null);
   const search = useRef<HTMLDialogElement>(null);
@@ -82,11 +81,9 @@ export function Header({ logo }: { logo?: EditorialPhoto }) {
   }
   return (
     <>
-      <header
-        className={`site-header ${light ? 'header-dark' : ''} ${scrolled ? 'header-scrolled' : ''}`}
-      >
+      <header className={`site-header ${scrolled ? 'header-scrolled' : ''}`}>
         <div className="container header-inner">
-          <Logo image={logo} light={light} />
+          <Logo image={logo} />
           <nav aria-label="Navegação principal" className="desktop-nav">
             {navigation.map(([label, href]) => (
               <Link key={href} href={href} aria-current={pathname === href ? 'page' : undefined}>

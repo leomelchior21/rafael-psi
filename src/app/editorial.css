@@ -49,9 +49,12 @@ html[data-smooth-scroll='true'],
     border-color 0.5s,
     height 0.5s var(--editorial-ease);
 }
-.header-dark {
+.site-shell:has(main .hero) > .site-header {
   background: transparent;
   color: var(--paper);
+}
+.site-shell:has(main .hero) > .site-header .logo img {
+  filter: brightness(0) invert(96%) sepia(8%) saturate(350%);
 }
 .header-scrolled {
   height: 84px;
@@ -59,7 +62,7 @@ html[data-smooth-scroll='true'],
   border-color: rgb(12 12 12 / 8%);
   backdrop-filter: blur(18px);
 }
-.header-dark.header-scrolled {
+.site-shell:has(main .hero) > .site-header.header-scrolled {
   background: rgb(7 23 37 / 80%);
   border-color: rgb(243 240 232 / 10%);
 }
@@ -252,25 +255,131 @@ html[data-smooth-scroll='true'],
   padding-inline: 6px;
 }
 .fragments-section {
-  padding-block: 174px;
-}
-.fragments-layout {
-  display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  gap: 100px;
+  min-height: 440px;
+  padding-block: 56px;
+  display: flex;
   align-items: center;
 }
+.fragment-background {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  height: 100%;
+  width: 100%;
+}
+.fragment-background .image-frame {
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+.fragment-photo-treatment {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(4 15 25 / 65%), rgb(4 15 25 / 34%) 42%, rgb(4 15 25 / 8%) 78%),
+    rgb(4 15 25 / 12%);
+}
+.fragments-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url('/brand/hero-brush.webp') left center / 100% 100% no-repeat;
+  transform: scaleY(-1);
+  opacity: 0.9;
+  pointer-events: none;
+}
+.fragments-layout {
+  position: relative;
+}
+.fragments-copy {
+  width: min(600px, 58%);
+}
 .fragments-copy .section-heading {
-  margin-bottom: 74px;
+  margin-bottom: 26px;
   align-items: baseline;
+}
+.fragments-copy .section-heading h2 {
+  font-size: 54px;
 }
 .fragments-copy .text-link {
   color: rgb(243 240 232 / 65%);
 }
 .home-fragments {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 42px;
+}
+.fragment-slide {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+.fragment-slide[data-active='true'] {
+  visibility: visible;
+}
+.fragment-typewriter {
+  display: block;
+  position: relative;
+}
+.fragment-measure {
+  display: block;
+  visibility: hidden;
+}
+.fragment-typed {
+  position: absolute;
+  inset: 0;
+}
+.fragment-rotation[data-writing='true'] .fragment-typed::after {
+  content: '';
+  display: inline-block;
+  height: 0.78em;
+  width: 1px;
+  background: currentColor;
+  margin-left: 5px;
+  vertical-align: -0.04em;
+  animation: fragment-caret 0.85s steps(1) infinite;
+}
+.fragment-pause {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 3px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgb(243 240 232 / 74%);
+  font-size: 10px;
+}
+.fragment-pause span {
+  font-size: 16px;
+}
+.fragment-rotation[data-enhanced] .fragment-pause {
+  display: inline-flex;
+}
+.fragment-rotation .fragment-card p {
+  font-size: 40px;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+.fragment-rotation .fragment-dash {
+  margin-top: 18px;
+}
+.fragment-rotation .fragment-card .meta {
+  margin-top: 10px;
+}
+@keyframes fragment-caret {
+  50% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fragment-rotation[data-enhanced] .fragment-pause {
+    display: none;
+  }
+  .fragment-typed::after {
+    display: none !important;
+  }
 }
 .fragment-card {
   min-width: 0;
@@ -538,7 +647,7 @@ html[data-smooth-scroll='true'],
     padding-block: 140px;
   }
   .fragments-section {
-    padding-block: 140px;
+    padding-block: 56px;
   }
   .fragments-layout {
     gap: 56px;
@@ -599,17 +708,23 @@ html[data-smooth-scroll='true'],
     font-size: 54px;
   }
   .fragments-section {
-    padding-block: 110px;
+    min-height: 480px;
+    padding-block: 64px;
+  }
+  .fragments-section::before {
+    background-size: 145% 100%;
   }
   .fragments-layout {
-    grid-template-columns: 1fr;
-    gap: 72px;
+    display: block;
+  }
+  .fragments-copy {
+    width: min(560px, 100%);
   }
   .fragments-copy .section-heading {
-    margin-bottom: 64px;
+    margin-bottom: 28px;
   }
   .home-fragments {
-    gap: 64px;
+    gap: 0;
   }
   .fragment-card p {
     font-size: 42px;
@@ -718,14 +833,18 @@ html[data-smooth-scroll='true'],
     padding-top: 12px;
   }
   .fragments-section {
-    padding-block: 96px;
+    min-height: 500px;
+    padding-block: 64px;
   }
   .fragments-copy .section-heading {
-    margin-bottom: 54px;
+    margin-bottom: 32px;
   }
   .home-fragments {
-    grid-template-columns: 1fr;
-    gap: 52px;
+    gap: 0;
+  }
+  .fragment-rotation .fragment-card p {
+    font-size: 38px;
+    max-width: 100%;
   }
   .fragment-card p {
     font-size: 40px;

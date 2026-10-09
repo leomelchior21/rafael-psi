@@ -4,7 +4,7 @@ import { pageMetadata } from '@/lib/metadata';
 import { EditorialImage } from '@/components/editorial-image';
 import { SectionHeading } from '@/components/section-heading';
 import { ArticleCard } from '@/components/article-card';
-import { FragmentCard } from '@/components/fragment-card';
+import { FragmentRotator } from '@/components/fragment-rotator';
 import { Arrow } from '@/components/icons';
 import { RevealHeading } from '@/components/reveal-heading';
 import { HeroSlideshow, type HeroPhoto } from '@/components/hero-slideshow';
@@ -87,26 +87,21 @@ export default async function HomePage() {
         </div>
       </section>
       <section className="fragments-section ink-surface">
+        {fragmentImage && (
+          <EditorialImage
+            image={fragmentImage}
+            className="fragment-background"
+            ratio={1.6}
+            sizes="100vw"
+          />
+        )}
+        <div className="fragment-photo-treatment" aria-hidden="true" />
         <div className="container fragments-layout">
           <div className="fragments-copy">
             <SectionHeading title="Fragmentos" href="/fragmentos" label="Explorar" />
-            <div className="home-fragments" data-stagger>
-              {fragments.map((fragment) => (
-                <FragmentCard key={fragment._id} fragment={fragment} />
-              ))}
-            </div>
+            <FragmentRotator fragments={fragments} />
             {!fragments.length && <p>Pequenas notas, perguntas em aberto.</p>}
           </div>
-          {fragmentImage && (
-            <EditorialImage
-              image={fragmentImage}
-              className="fragment-photo"
-              ratio={0.95}
-              reveal="vertical"
-              depth
-              delay={0.3}
-            />
-          )}
         </div>
       </section>
       <section className="section clinic-section">

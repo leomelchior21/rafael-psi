@@ -115,7 +115,7 @@ Abra **Páginas → Página inicial → Abertura**, troque a fotografia, descrev
 
 ### Escolher os destaques
 
-Em **Páginas → Página inicial → Curadoria**, selecione até três textos e organize os fragmentos. Arraste para definir a ordem. A capa apresenta os dois primeiros fragmentos selecionados; os demais continuam no arquivo. Publique a página inicial. A capa mantém sua seleção; não é substituída automaticamente pelos textos mais recentes.
+Em **Páginas → Página inicial → Curadoria**, selecione até três textos e organize os fragmentos. Arraste para definir a ordem. A capa alterna entre os dois primeiros fragmentos selecionados, exibindo um por vez; os demais continuam no arquivo. Publique a página inicial. A capa mantém sua seleção; não é substituída automaticamente pelos textos mais recentes.
 
 ### Alterar contato ou redes
 
@@ -140,6 +140,8 @@ As referências de design originais ficam em `DESIGN-REFERENCE/` para manutenç�
 `src/app/editorial.css` concentra o ritmo editorial, a composição responsiva e os estados de interação. `src/app/hero.css` define as camadas da abertura e os destaques de Textos, com enquadramentos iguais e cantos arredondados. `MotionSystem` controla as entradas por linha, as revelações de capítulos e imagens e a limpeza das animações entre rotas, usando GSAP e ScrollTrigger. Lenis atua apenas em telas acima de 1024 px com mouse; celular e tablet conservam a rolagem nativa. Menus e busca suspendem a rolagem da página.
 
 `HeroSlideshow` alterna as fotografias a cada 6,5 segundos, com uma transição de opacidade de 1,8 segundo. A troca aguarda a imagem seguinte carregar, pausa fora da área visível, com a aba oculta ou com um diálogo aberto, e oferece um botão de pausa. Com movimento reduzido ou prévia de edição, não há troca automática. Sem JavaScript, a primeira fotografia continua visível.
+
+Fragmentos usa a mesma brush espelhada verticalmente sobre uma fotografia de fundo. A seção compacta mostra um fragmento por vez: `FragmentRotator` escreve o texto progressivamente, mantém uma pausa de leitura e troca para o próximo. O espaço reservado evita mudanças de altura, e leitores de tela recebem o texto completo. A animação pausa fora da tela, com a aba oculta, em diálogos, na prévia de edição e pelo botão Pausar. Com movimento reduzido ou sem JavaScript, um fragmento completo permanece visível.
 
 Com movimento reduzido, a rolagem suave, os recortes animados e a profundidade das imagens são desativados. Todo o conteúdo permanece visível sem JavaScript. A prévia de edição do Sanity também desativa as animações. Schemas, consultas e publicação do CMS permanecem independentes dessa camada visual.
 
