@@ -17,6 +17,7 @@ export default async function CreditsPage() {
   ]);
   const all = [
     home.heroImage,
+    ...(home.heroGallery || []),
     home.clinicImage,
     clinic.clinicImage,
     about.portrait,

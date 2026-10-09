@@ -30,7 +30,13 @@ export function MotionSystem({ enabled = true }: { enabled?: boolean }) {
         if (hero && onOpening) {
           const opening = gsap.timeline({ defaults: { ease } });
           opening
-            .from('.hero-texture', { opacity: 0, duration: 0.6 }, 0)
+            .from('.hero-photo-motion', { scale: 1.04, duration: 1.6, clearProps: 'transform' }, 0)
+            .fromTo(
+              '.hero-brush',
+              { clipPath: 'inset(0 100% 0 0)' },
+              { clipPath: 'inset(0 0% 0 0)', duration: 1.35, clearProps: 'clipPath' },
+              0.15,
+            )
             .from('.site-header .logo', { opacity: 0, y: 8, duration: 0.5 }, 0.05)
             .from(
               '.desktop-nav a, .header-controls',
@@ -38,16 +44,10 @@ export function MotionSystem({ enabled = true }: { enabled?: boolean }) {
               0.15,
             )
             .from('.hero-eyebrow', { opacity: 0, duration: 0.5 }, 0.24)
-            .from('.hero .title-line-inner', { yPercent: 106, stagger: 0.12, duration: 0.95 }, 0.28)
-            .from('.hero-subtitle', { opacity: 0, y: 18, duration: 0.65 }, 0.63)
-            .fromTo(
-              '.hero-photo .image-frame',
-              { clipPath: 'inset(0 100% 0 0)' },
-              { clipPath: 'inset(0 0% 0 0)', duration: 1.1, clearProps: 'clipPath' },
-              0.5,
-            )
-            .from('.hero-actions a', { opacity: 0, y: 10, stagger: 0.08, duration: 0.45 }, 1.08)
-            .from('.hero-footnote, .hero-photo-caption', { opacity: 0, duration: 0.5 }, 1.15);
+            .from('.hero .title-line-inner', { yPercent: 106, stagger: 0.1, duration: 0.95 }, 0.35)
+            .from('.hero-subtitle', { opacity: 0, y: 18, duration: 0.65 }, 0.65)
+            .from('.hero-actions a', { opacity: 0, y: 10, stagger: 0.08, duration: 0.45 }, 0.8)
+            .from('.hero-footnote, .hero-playback', { opacity: 0, duration: 0.5 }, 1.15);
         } else if (main) {
           gsap.from(main, {
             opacity: 0,

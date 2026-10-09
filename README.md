@@ -82,6 +82,8 @@ Para envio direto, configure um remetente verificado e `RESEND_API_KEY` / `CONTA
 - `public/brand/logo-horizontal.svg` e `monogram.svg`: contêineres SVG com o PNG original incorporado, sem redesenhar a marca. Podem ser substituídos por vetores oficiais com as mesmas proporções.
 - O logo também pode ser substituído pelo Studio. O cabeçalho escuro usa a versão visual clara da marca.
 - `public/brand/ink-texture.webp`: recorte sem texto da textura da referência fornecida.
+- `public/brand/hero-brush.webp`: pintura azul transparente da abertura, fixa acima das fotografias. Origem e prompt em [data/hero-brush.md](data/hero-brush.md).
+- `public/images/retrato-provisorio.webp`: retrato ilustrativo temporário em Sobre, substituído pelo campo Retrato do Sanity. Origem e prompt em [data/retrato-provisorio.md](data/retrato-provisorio.md).
 - `data/photo-credits.json`: fontes, autores, licenças e alterações das seis fotografias reais.
 - `/creditos`: créditos gerados a partir das imagens efetivamente usadas no CMS. A conversão em WebP, o recorte e a apresentação monocromática são informados. Fotografias CC BY-SA conservam suas licenças; isso não altera a licença do restante do site.
 - `EditorialImage` usa `next/image` e `@sanity/image-url`, com crop/hotspot, tamanhos responsivos e carregamento prioritário só acima da dobra. O preto e branco é aplicado via CSS; os originais continuam disponíveis no CMS.
@@ -109,7 +111,7 @@ Abra **Conteúdo → Fragmentos**, crie um fragmento, escreva e confira a data. 
 
 ### Trocar uma fotografia da página inicial
 
-Abra **Páginas → Página inicial → Abertura**, troque a fotografia, descreva a imagem e ajuste o ponto de interesse. Na aba **Clínica**, você troca a fotografia dessa seção. Publique. A diagramação é mantida automaticamente.
+Abra **Páginas → Página inicial → Abertura**, troque a fotografia, descreva a imagem e ajuste o ponto de interesse. Em **Fotografias adicionais da abertura**, você pode escolher até quatro fotos e ordenar as trocas suaves do fundo. A foto principal aparece primeiro; quando a lista adicional está vazia, o fundo também usa as fotos dos dois primeiros textos destacados. A brush azul permanece automaticamente sobre qualquer fotografia. Na aba **Clínica**, você troca a fotografia dessa seção. Publique. A diagramação é mantida automaticamente.
 
 ### Escolher os destaques
 
@@ -121,7 +123,9 @@ Abra **Configurações → Identidade, SEO, redes e contato → Redes e contato*
 
 ### Atualizar a clínica e o percurso
 
-Use **Páginas → Clínica** e **Páginas → Sobre**. Substitua os textos de apresentação provisórios e acrescente apenas informações confirmadas. Você pode omitir retrato, formação ou seções adicionais. O layout se adapta.
+Use **Páginas → Clínica** e **Páginas → Sobre**. Substitua os textos de apresentação provisórios e acrescente apenas informações confirmadas. Você pode trocar o retrato e omitir formação ou seções adicionais. O layout se adapta.
+
+Até enviar uma foto no campo **Retrato**, Sobre apresenta uma imagem ilustrativa provisória, identificada pela legenda. Ao publicar a fotografia real pelo Studio, ela substitui automaticamente o exemplo. O retrato ilustrativo não é usado nos metadados da pessoa ou na imagem de compartilhamento.
 
 ## Referências técnicas
 
@@ -133,7 +137,9 @@ As referências de design originais ficam em `DESIGN-REFERENCE/` para manutenç�
 
 ## Composição e movimento
 
-`src/app/editorial.css` concentra o ritmo editorial, a composição responsiva e os estados de interação. `MotionSystem` controla as entradas por linha, as revelações de capítulos e imagens e a limpeza das animações entre rotas, usando GSAP e ScrollTrigger. Lenis atua apenas em telas acima de 1024 px com mouse; celular e tablet conservam a rolagem nativa. Menus e busca suspendem a rolagem da página.
+`src/app/editorial.css` concentra o ritmo editorial, a composição responsiva e os estados de interação. `src/app/hero.css` define as camadas da abertura e os destaques de Textos, com enquadramentos iguais e cantos arredondados. `MotionSystem` controla as entradas por linha, as revelações de capítulos e imagens e a limpeza das animações entre rotas, usando GSAP e ScrollTrigger. Lenis atua apenas em telas acima de 1024 px com mouse; celular e tablet conservam a rolagem nativa. Menus e busca suspendem a rolagem da página.
+
+`HeroSlideshow` alterna as fotografias a cada 6,5 segundos, com uma transição de opacidade de 1,8 segundo. A troca aguarda a imagem seguinte carregar, pausa fora da área visível, com a aba oculta ou com um diálogo aberto, e oferece um botão de pausa. Com movimento reduzido ou prévia de edição, não há troca automática. Sem JavaScript, a primeira fotografia continua visível.
 
 Com movimento reduzido, a rolagem suave, os recortes animados e a profundidade das imagens são desativados. Todo o conteúdo permanece visível sem JavaScript. A prévia de edição do Sanity também desativa as animações. Schemas, consultas e publicação do CMS permanecem independentes dessa camada visual.
 

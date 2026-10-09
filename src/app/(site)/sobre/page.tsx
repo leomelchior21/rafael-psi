@@ -3,6 +3,12 @@ import { pageMetadata, siteUrl } from '@/lib/metadata';
 import { jsonLd } from '@/lib/utils';
 import { EditorialImage } from '@/components/editorial-image';
 import { PortableTextRenderer } from '@/components/portable-text';
+import type { EditorialPhoto } from '@/lib/types';
+const provisionalPortrait: EditorialPhoto = {
+  localPath: '/images/retrato-provisorio.webp',
+  alt: 'Retrato ilustrativo em preto e branco de um homem. Imagem provisória para a composição da página.',
+  caption: 'Retrato ilustrativo provisório · substituir pela fotografia de Rafael.',
+};
 export async function generateMetadata() {
   const page = await getAbout();
   return pageMetadata(
@@ -15,6 +21,7 @@ export async function generateMetadata() {
 }
 export default async function AboutPage() {
   const page = await getAbout();
+  const portrait = page.portrait || provisionalPortrait;
   return (
     <div className="container page-section">
       <div className="page-heading">
@@ -22,8 +29,15 @@ export default async function AboutPage() {
         <h1>{page.title || 'Rafael Rodrigues'}</h1>
         <p>{page.intro}</p>
       </div>
-      <div className={`about-layout ${page.portrait ? 'has-portrait' : ''}`}>
-        {page.portrait && <EditorialImage image={page.portrait} priority ratio={0.8} />}
+      <div className="about-layout has-portrait">
+        <EditorialImage
+          image={portrait}
+          className="about-portrait"
+          priority
+          ratio={0.8}
+          caption
+          reveal="vertical"
+        />
         <div>
           <PortableTextRenderer value={page.biography} />
           {!page.biography?.length && (

@@ -23,11 +23,10 @@ export function ArticleCard({
       <Link href={`/textos/${article.slug.current}`} className="article-card-link">
         <EditorialImage
           image={article.heroImage}
-          ratio={featured ? (index === 0 ? 1.15 : index === 1 ? 0.92 : 1.12) : 1.3}
-          reveal={featured && index === 0 ? 'vertical' : false}
+          ratio={1.3}
           sizes={
             featured
-              ? '(max-width: 800px) 90vw, (max-width: 1100px) 40vw, 45vw'
+              ? '(max-width: 800px) 90vw, 30vw'
               : '(max-width: 700px) 90vw, (max-width: 1100px) 45vw, 30vw'
           }
         />

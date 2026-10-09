@@ -70,6 +70,7 @@ export interface Home {
   heroSubtitle?: string;
   heroImage?: EditorialPhoto;
   heroPrimaryCTA?: string;
+  heroGallery?: EditorialPhoto[];
   heroSecondaryCTA?: string;
   featuredArticles?: Article[];
   featuredFragments?: Fragment[];

@@ -359,6 +359,15 @@ export const schemaTypes = [
         }),
         photo('heroImage', 'Fotografia de abertura', true),
         defineField({
+          name: 'heroGallery',
+          title: 'Fotografias adicionais da abertura',
+          type: 'array',
+          of: [defineArrayMember({ type: 'editorialImage' })],
+          validation: (rule) => rule.max(4),
+          description:
+            'A fotografia principal aparece primeiro. Adicione até quatro imagens para a troca suave ao fundo; a brush azul permanece fixa. Quando vazio, usamos também as fotografias dos dois primeiros textos destacados.',
+        }),
+        defineField({
           name: 'heroPrimaryCTA',
           title: 'Botão de leitura',
           type: 'string',

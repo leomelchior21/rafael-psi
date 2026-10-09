@@ -7,6 +7,8 @@ import { ArticleCard } from '@/components/article-card';
 import { FragmentCard } from '@/components/fragment-card';
 import { Arrow } from '@/components/icons';
 import { RevealHeading } from '@/components/reveal-heading';
+import { HeroSlideshow, type HeroPhoto } from '@/components/hero-slideshow';
+import { imageUrl } from '@/sanity/images';
 export async function generateMetadata() {
   const [home, settings] = await Promise.all([getHome(), getSettings()]);
   return pageMetadata(
@@ -21,10 +23,31 @@ export default async function HomePage() {
   const articles = (home.featuredArticles || []).filter((a) => a?.slug?.current);
   const fragments = (home.featuredFragments || []).filter((f) => f).slice(0, 2);
   const fragmentImage = fragments.find((f) => f.image)?.image;
+  const gallery = home.heroGallery?.length
+    ? home.heroGallery
+    : articles.slice(0, 2).map((article) => article.heroImage);
+  const heroPhotos: HeroPhoto[] = Array.from(
+    new Map(
+      [home.heroImage, ...gallery]
+        .filter((photo) => Boolean(imageUrl(photo)))
+        .map((photo) => [
+          photo?.asset?._ref || photo?.localPath,
+          {
+            src: imageUrl(photo, 2000)!,
+            position: photo?.hotspot
+              ? `${photo.hotspot.x * 100}% ${photo.hotspot.y * 100}%`
+              : '60% center',
+          },
+        ]),
+    ).values(),
+  ).slice(0, 5);
   return (
     <>
       <section className="hero ink-surface">
-        <div className="hero-texture" aria-hidden="true" />
+        <HeroSlideshow photos={heroPhotos} />
+        <div className="hero-photo-treatment" aria-hidden="true" />
+        <div className="hero-brush" aria-hidden="true" />
+        <div className="hero-readability" aria-hidden="true" />
         <div className="container hero-inner">
           <div className="hero-copy">
             <p className="eyebrow hero-eyebrow">Rafael Rodrigues · Psicanálise</p>
@@ -47,21 +70,8 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="hero-photo">
-            <EditorialImage
-              image={home.heroImage}
-              priority
-              ratio={1.05}
-              depth
-              sizes="(max-width:800px) 100vw, 58vw"
-            />
-            <span className="hero-photo-caption">São Paulo · entre o movimento e a pausa</span>
-          </div>
           <div className="hero-footnote">
             <span>Um espaço de escrita e escuta</span>
-            <span>
-              01 — Percursos <span aria-hidden="true">↓</span>
-            </span>
           </div>
         </div>
       </section>
